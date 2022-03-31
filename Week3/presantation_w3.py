@@ -12,7 +12,7 @@ def addHospital(df, h, typeName):
         new_row = {"X": row[0] ,"Y": row[1], "Type": typeName}
         df = df.append(new_row,ignore_index=True)
     return df
-def main():
+def mainweek3():
     noise = st.slider("Sigma Delta", 0.001, 10., value=2.)
     
     st.latex("Cluster1  = \mathcal{N}(0, \sigma^{2})")
@@ -117,7 +117,7 @@ def mainTitle():
     pass
 if __name__ == '__main__':
     mainTitle()
-    main()
+    mainweek3()
 
 
 
