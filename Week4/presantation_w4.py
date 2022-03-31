@@ -4,15 +4,17 @@ import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 from sklearn.decomposition import PCA
-
+address = "https://raw.githubusercontent.com/YCT1/GradTerm2/master/Week4/"
+#address = ""
 def locallyTrained(fold):
+    
     df = pd.DataFrame()
     hospital_number = 3
     for i in range(1, hospital_number+1):
         if i == hospital_number:
-            df[f"Local Hospital {i} OOD"] = pd.read_csv(f"Results/Sel1_fold{fold}/h_{i}_1_loss.csv")
+            df[f"Local Hospital {i} OOD"] = pd.read_csv(f"{address}Results/Sel1_fold{fold}/h_{i}_1_loss.csv")
         else:
-            df[f"Local Hospital {i}"] = pd.read_csv(f"Results/Sel1_fold{fold}/h_{i}_1_loss.csv")
+            df[f"Local Hospital {i}"] = pd.read_csv(f"{address}Results/Sel1_fold{fold}/h_{i}_1_loss.csv")
 
 
     fig = px.line(df, y=df.columns,title=f"Localy Trained Model 500 Epochs Fold {fold}")
@@ -29,11 +31,11 @@ def traditonalFedL(fold, id=2, title="FedL Model"):
     hospital_number = 3
     cycle = 5 
 
-    
+
     for i in range(1, hospital_number+1):
         hospital_loss_values = list()
         for k in range(1, cycle + 1):
-            loss_values = pd.read_csv(f"Results/Sel{id}_fold{fold}/h_{i}_{k}_loss.csv").values
+            loss_values = pd.read_csv(f"{address}Results/Sel{id}_fold{fold}/h_{i}_{k}_loss.csv").values
             hospital_loss_values.append(loss_values)
         hospital_loss_values = np.array(hospital_loss_values).flatten()
         if i == hospital_number:
@@ -177,8 +179,8 @@ def main():
 
 
     st.subheader("5 Cycles with 100 Epochs each, Top 10 layer")
-    # traditonalFedL(1, 4,"FedL Model with Aligment K=10, ")
-    # traditonalFedL(2, 4,"FedL Model with Aligment K=10, ")
+    traditonalFedL(1, 4,"FedL Model with Aligment K=10, ")
+    traditonalFedL(2, 4,"FedL Model with Aligment K=10, ")
 
     st.header("FedL Trained with Alignment Bi-Directional")
     st.subheader("5 Cycles with 100 Epochs each, Top 5 layer")
